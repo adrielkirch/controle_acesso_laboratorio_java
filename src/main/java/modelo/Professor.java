@@ -9,8 +9,7 @@ public class Professor extends Pessoa {
 	}
 
 	public Professor(String nome,String senha, String email, String cpf) {
-		super(email, nome , cpf,senha);
-		
+		super( email,  senha,  nome,  cpf);
 	}
 
 
