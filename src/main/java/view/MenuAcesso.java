@@ -4,10 +4,14 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Label;
+
+import javax.swing.JOptionPane;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.wb.swt.SWTResourceManager;
 
 import control.CadastrarControl;
+import control.AcessoLaboratorioControl;
 import control.MenuAcessoControl;
 import modelo.Pessoa;
 
@@ -17,6 +21,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 
@@ -27,17 +32,16 @@ public class MenuAcesso {
 	private Text inputSenha;
 
 
-	public static void main(String[] args) {
-		MenuAcessoControl.displayView();
-	}
 	/**
 	 * Open the window.
 	 */
 	public void open() {
 		Display display = Display.getDefault();
+		
 		createContents();
 		shlMenuprincipal.open();
 		shlMenuprincipal.layout();
+		shlMenuprincipal.setImage(new Image(display,"src//main//java/resources//Science-University-icon.png"));
 		while (!shlMenuprincipal.isDisposed()) {
 			if (!display.readAndDispatch()) {
 				display.sleep();
@@ -52,8 +56,10 @@ public class MenuAcesso {
 	protected void createContents() {
 		shlMenuprincipal = new Shell();
 		shlMenuprincipal.setSize(800, 600);
+		
 		shlMenuprincipal.setText("MenuPrincipal");
 		shlMenuprincipal.setLayout(null);
+		
 		
 		Label titleLabel = new Label(shlMenuprincipal, SWT.HORIZONTAL);
 		titleLabel.setBounds(0, 24, 803, 47);
@@ -79,9 +85,17 @@ public class MenuAcesso {
 		btnEntrar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseDown(MouseEvent e) {
-				Pessoa p = MenuAcessoControl.entrar(inputEmail.getText(), inputSenha.getText());
-				if(p != null) {
-					System.out.println(p.getEmail());
+				Pessoa pessoa = MenuAcessoControl.entrar(inputEmail.getText(), inputSenha.getText());
+				if(pessoa != null) {
+					 JOptionPane.showMessageDialog(null, "Login feito com sucesso");
+					 shlMenuprincipal.close();
+					 AcessoLaboratorioControl.displayView(pessoa);
+					
+				} else {
+					 JOptionPane.showMessageDialog(null,
+							    "Email e/ou senha incorreto(s).",
+							    "Error",
+							    JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});

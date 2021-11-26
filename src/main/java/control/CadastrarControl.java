@@ -2,12 +2,16 @@ package control;
 
 import java.util.Iterator;
 
+import javax.swing.JOptionPane;
+
 import org.eclipse.swt.widgets.Combo;
 
 import modelo.Turno;
 import repositorio.AlunoRepositorio;
+import repositorio.LaboratorioRepositorio;
 import repositorio.ProfessorRepositorio;
 import view.CadastrarAlunoForm;
+import view.CadastrarLaboratorioForm;
 import view.CadastrarProfessorForm;
 import view.MenuAcesso;
 
@@ -29,6 +33,15 @@ public class CadastrarControl {
 			e.printStackTrace();
 		}
 	}
+	
+	public static void displayLaboratorioCadastroView() {
+		try {
+			CadastrarLaboratorioForm window = new CadastrarLaboratorioForm();
+			window.open();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 	public static void addTurno(Combo combo) {
 		Turno turno;
@@ -42,8 +55,14 @@ public class CadastrarControl {
 			return false;
 		}
 		AlunoRepositorio alunoRepositorio = new AlunoRepositorio();
-		alunoRepositorio.adicionar(nome, senha, email, cpf, Turno.valueOf(turno));
-		return true;
+		try {
+			alunoRepositorio.adicionar(nome, senha, email, cpf, Turno.valueOf(turno));
+			return true;
+		} catch (Exception e) {
+			
+			return false;
+		}
+		
 	}
 
 	public static boolean cadastrarProfessor(String email, String senha, String nome, String cpf) {
@@ -51,8 +70,23 @@ public class CadastrarControl {
 			return false;
 		}
 		ProfessorRepositorio professorRepositorio = new ProfessorRepositorio();
-		professorRepositorio.adicionar(nome, senha, email, cpf);
+		try {
+			professorRepositorio.adicionar(nome, senha, email, cpf);
+			return true;
+		} catch (Exception e) {
+
+			return false;
+		}
+		
+	}
+	public static boolean cadastrarLaboratorio(String codigo, int totalAssentos) {
+		if (codigo.equals("") || totalAssentos < 0 ) {
+			return false;
+		}
+		LaboratorioRepositorio laboratorioRepositorio = new LaboratorioRepositorio();
+		laboratorioRepositorio.adicionar(codigo, totalAssentos);
 		return true;
 	}
+	
 
 }

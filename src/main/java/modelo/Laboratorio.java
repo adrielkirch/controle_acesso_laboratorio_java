@@ -39,7 +39,11 @@ public class Laboratorio {
 		this.codigo = codigo;
 		this.totalAssentos = totalAssentos;
 	}
-
+	
+	public int getAssentosDisponiveis() {
+		return this.totalAssentos - (this.alunos.size() + this.professores.size());
+	}
+	
 	public String getCodigo() {
 		return codigo;
 	}

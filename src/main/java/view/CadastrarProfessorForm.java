@@ -20,6 +20,7 @@ import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 
@@ -31,13 +32,6 @@ public class CadastrarProfessorForm {
 	private Text inputNome;
 	private Text inputCpf;
 
-	/**
-	 * Launch the application.
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		CadastrarControl.displayProfessorCadastroView();
-	}
 
 	/**
 	 * Open the window.
@@ -47,6 +41,7 @@ public class CadastrarProfessorForm {
 		createContents();
 		shlCadastrarProfessor.open();
 		shlCadastrarProfessor.layout();
+		shlCadastrarProfessor.setImage(new Image(display,"src//main//java/resources//Science-University-icon.png"));
 		while (!shlCadastrarProfessor.isDisposed()) {
 			if (!display.readAndDispatch()) {
 				display.sleep();
@@ -143,7 +138,7 @@ public class CadastrarProfessorForm {
 					 JOptionPane.showMessageDialog(null, "Professor, " + inputEmail.getText() + " cadastrado com sucesso.");
 				 } else {
 					 JOptionPane.showMessageDialog(null,
-							    "Valores das entradas, vazios ou incorretos, tente novamente.",
+							    "Valores das entradas vazios ou email insdisponível, tente novamente.",
 							    "Error",
 							    JOptionPane.ERROR_MESSAGE);
 				 }

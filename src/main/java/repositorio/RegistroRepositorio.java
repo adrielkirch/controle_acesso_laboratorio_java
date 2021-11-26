@@ -27,18 +27,18 @@ public class RegistroRepositorio {
 	}
 
 	public ArrayList<Registro> obterTodos() {
-		return (ArrayList<Registro>) entityManager.createQuery("from Registro").getResultList();
+		return (ArrayList<Registro>) entityManager.createQuery("from Registro order by id desc").getResultList();
 	}
 	
 	public ArrayList<Registro> obterPorPessoa(Long idPessoa) {
-		return (ArrayList<Registro>) entityManager.createQuery("from Registro where idPessoa = " + idPessoa).getResultList();
+		return (ArrayList<Registro>) entityManager.createQuery("from Registro where idPessoa = :id order by id desc").setParameter("id", idPessoa).getResultList();
+	}
+	
+	public ArrayList<Registro> obterUltimoRegistroPessoa(Long idPessoa) {
+		return (ArrayList<Registro>) entityManager.createQuery( "from Registro where idPessoa = :id order by id desc").setParameter("id", idPessoa).setMaxResults(1).getResultList();
 	}
 
 	
-	public ArrayList<Registro> obterPorLaboratorio(Long idLaboratorio) {
-		return (ArrayList<Registro>) entityManager.createQuery("from Registro where id_laboratorio = " + idLaboratorio).getResultList();
-	}
-
 	public Registro adicionar(EntityManagerFactory entityManagerFactory, EntityManager entityManager, Long idPessoa,
 			Laboratorio laboratorio, String acao, String hora) {
 

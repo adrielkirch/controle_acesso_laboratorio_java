@@ -32,7 +32,7 @@ public class LaboratorioRepositorio {
 	
 
 	public ArrayList<Laboratorio> obterTodos() {
-		return (ArrayList<Laboratorio>) entityManager.createQuery("from Laboratorio").getResultList();
+		return (ArrayList<Laboratorio>) entityManager.createQuery("from Laboratorio order by id asc").getResultList();
 	}
 	
 	public boolean existeProfessorLabId(Professor professor, Long id) {
@@ -42,7 +42,7 @@ public class LaboratorioRepositorio {
 		}
 		List<Professor> professores =  laboratorio.getProfessores();
 		for (int i = 0; i < professores.size(); i++) {
-			if(professores.get(i) == professor) {
+			if(professores.get(i).getId() == professor.getId()) {
 				return true;
 			}
 		}
@@ -56,7 +56,7 @@ public class LaboratorioRepositorio {
 		}
 		List<Aluno> alunos =  laboratorio.getAlunos();
 		for (int i = 0; i < alunos.size(); i++) {
-			if(alunos.get(i) == aluno) {
+			if(alunos.get(i).getId() == aluno.getId()) {
 				return true;
 			}
 		}
@@ -89,6 +89,8 @@ public class LaboratorioRepositorio {
 		List<Aluno> alunos = laboratorio.getAlunos();
 		if(existeAlunoLabId(aluno, idLaboratorio) == true) {
 			throw new Exception("Aluno já autenticado");
+		} else if (laboratorio.getAssentosDisponiveis() == 0) {
+			throw new Exception("Laboratório está totalmente ocupado.");
 		}
 		alunos.add(aluno);
 		laboratorio.setAlunos(alunos);
@@ -99,7 +101,7 @@ public class LaboratorioRepositorio {
 		RegistroRepositorio registroRepositorio = new RegistroRepositorio();
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 		LocalDateTime now = LocalDateTime.now();
-		System.out.println(dtf.format(now));
+		
 		this.entityManager.getTransaction().commit();
 		registroRepositorio.adicionar(entityManagerFactory,entityManager,aluno.getId(), laboratorio, "entrar", dtf.format(now));
 		
@@ -127,7 +129,7 @@ public class LaboratorioRepositorio {
 		RegistroRepositorio registroRepositorio = new RegistroRepositorio();
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 		LocalDateTime now = LocalDateTime.now();
-		System.out.println(dtf.format(now));
+		
 		this.entityManager.getTransaction().commit();
 		
 		registroRepositorio.adicionar(entityManagerFactory,entityManager,aluno.getId(), laboratorio, "sair", dtf.format(now));

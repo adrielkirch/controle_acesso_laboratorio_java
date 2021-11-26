@@ -20,6 +20,7 @@ import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 
@@ -31,13 +32,6 @@ public class CadastrarAlunoForm {
 	private Text inputNome;
 	private Text inputCpf;
 
-	/**
-	 * Launch the application.
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		CadastrarControl.displayAlunoCadastroView();
-	}
 
 	/**
 	 * Open the window.
@@ -47,6 +41,7 @@ public class CadastrarAlunoForm {
 		createContents();
 		shell.open();
 		shell.layout();
+		shell.setImage(new Image(display,"src//main//java/resources//Science-University-icon.png"));
 		while (!shell.isDisposed()) {
 			if (!display.readAndDispatch()) {
 				display.sleep();
@@ -161,7 +156,7 @@ public class CadastrarAlunoForm {
 					 JOptionPane.showMessageDialog(null, "Aluno, " + inputEmail.getText() + " cadastrado com sucesso.");
 				 } else {
 					 JOptionPane.showMessageDialog(null,
-							    "Valores das entradas, vazios ou incorretos, tente novamente.",
+							    "Valores das entradas vazios ou email insdisponível, tente novamente.",
 							    "Error",
 							    JOptionPane.ERROR_MESSAGE);
 				 }

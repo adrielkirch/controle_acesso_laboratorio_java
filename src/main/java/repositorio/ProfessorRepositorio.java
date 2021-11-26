@@ -5,8 +5,10 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 
+import modelo.Aluno;
 import modelo.Professor;
 import modelo.Turno;
+import util.PessoaUtil;
 
 import java.util.ArrayList;
 
@@ -23,6 +25,8 @@ public class ProfessorRepositorio {
 		Professor professor = entityManager.find(Professor.class, id);
 		return professor != null ? professor : null;
 	}
+	
+	
 
 	public ArrayList<Professor> obterTodos() {
 		return (ArrayList<Professor>) entityManager.createQuery("from Professor").getResultList();
@@ -34,7 +38,10 @@ public class ProfessorRepositorio {
 				.setParameter("senha", senha).getResultList();
 	}
 
-	public Professor adicionar(String nome, String senha, String email, String cpf) {
+	public Professor adicionar(String nome, String senha, String email, String cpf) throws Exception {
+		if(PessoaUtil.existeAlunoEmail(email)||PessoaUtil.existeProfessorEmail(email)) {
+			throw new Exception("Email já utilizado.");
+		}
 		Professor novoProfessor = new Professor(nome, senha, email, cpf);
 		this.entityManager.getTransaction().begin();
 		this.entityManager.persist(novoProfessor);
